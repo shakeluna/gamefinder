@@ -5,7 +5,8 @@ st.title('스팀 앱 정보')
 st.write('저희 사이트는 프로토타입 프로젝트로 Streamlit을 통해 웹사이트를 운영하고 있습니다.')
 
 def get_app_data(appid):
-    response = requests.get(f"https://api.sheety.co/b642dc78968e02f9dd7ec2c1ad72493b/loweststoreonly/forDb")
+    auth = HTTPBasicAuth('useradmin', 'awnetientoai11')
+    response = requests.get("https://api.sheety.co/b642dc78968e02f9dd7ec2c1ad72493b/loweststoreonly/forDb", auth=auth)
     data = response.json()['forDb']
     
     for row in data:
