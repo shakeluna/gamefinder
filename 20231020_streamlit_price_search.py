@@ -43,7 +43,8 @@ if st.button("검색"):
     app_data = get_app_data(appid)
     
     if app_data is not None and not app_data.empty:
-        name, store, price, link = app_data.iloc[0].values
+        first_row = app_data.iloc[0]
+        name, store, price, link = first_row['Name'], first_row['Store'], first_row['Price'], first_row['Link']
         steam_price = fetch_steam_price(appid)
         st.write(f"현재 스팀 가격: {steam_price} 원")
         st.write(f"상품 이름: {name}")
