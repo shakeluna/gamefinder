@@ -41,15 +41,40 @@ if st.button("검색"):
         st.image(f"https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg")
         st.write(f"상품 구매 사이트: {store}")
         st.write(f"상품 구매 가격(수수료 불포함): {price} 원")
-        st.write(f"상품 구매 링크: {link}")
+        st.markdown(f'[구매하기]({link})')
 
-        table_data = pd.DataFrame({
-            '상품 이름': [name],
-            '상품 구매 사이트': [store],
-            '상품 구매 가격(수수료 불포함)': [price],
-            '상품 구매 링크': [link]
-        })
-        st.table(table_data)
+
+
+
+        st.write(
+            f"""
+            <style>
+                table {{
+                    width: 100%;
+                    border-collapse: collapse;
+                }}
+                th, td {{
+                    text-align: left;
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                }}
+            </style>
+            <table>
+                <tr>
+                    <th>상품 이름</th>
+                    <th>상품 구매 사이트</th>
+                    <th>상품 구매 가격(수수료 불포함)</th>
+                    <th>상품 구매 링크</th>
+                </tr>
+                <tr>
+                    <td>{name}</td>
+                    <td>{store}</td>
+                    <td>{price}</td>
+                    <td><a href="{link}" target="_blank">구매하기</a></td>
+                </tr>
+            </table>
+            """, unsafe_allow_html=True
+        )
 
 
     else:
