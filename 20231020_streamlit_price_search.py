@@ -17,7 +17,7 @@ def get_app_data(appid):
     
     if data:
         df = pd.DataFrame(data, columns=['AppID', 'Name', 'Store', 'Price', 'Link'])
-        return df.sort_values(by='Price', ascending=False, descending=True)
+        return df.sort_values(by='Price', ascending=False)
 
 def fetch_steam_price(appid):
     steam_api_url = f"https://store.steampowered.com/api/appdetails?appids={appid}&cc=kr"
