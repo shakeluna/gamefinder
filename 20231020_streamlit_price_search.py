@@ -1,7 +1,5 @@
 import streamlit as st
 import requests
-from requests.auth import HTTPBasicAuth
-
 
 st.title('스팀 게임 최저가 정보 제공 사이트')
 st.write('국내 외 다양한 사이트를 검색하여 스팀게임 최저가를 찾는 서비스입니다.')
@@ -12,13 +10,12 @@ st.write('만약 사용전에 의심이 되신다면 직접 streamlit에 대해�
 
 
 def get_app_data(appid):
-    auth = HTTPBasicAuth('useradmin', 'awnetientoai11')
-    response = requests.get("https://api.sheety.co/b642dc78968e02f9dd7ec2c1ad72493b/loweststoreonly/forDb", auth=auth)
-    data = response.json()['forDb']
+    response = requests.get(f"https://script.google.com/macros/s/AKfycbzRh27_8UVsjbUNR1XktEbB2iLE0P4nvP-W--FJYMQt7OUxwX87M1fQx5DS5UBiTP8/exec?steam_appid={appid}")
+    data = response.json()['data']
     
-    for row in data:
-        if str(row['steamAppid']) == str(appid):
-            return row['name'], row['store'], row['price'], row['link']
+    if data:
+        row = data[0]
+        return row[1], row[2], row[3], row[4]
     return None
 
 def fetch_steam_price(appid):
