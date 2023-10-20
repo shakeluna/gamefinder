@@ -40,6 +40,14 @@ if st.button("검색"):
         st.write(f"상품 구매 사이트: {store}")
         st.write(f"상품 구매 가격(수수료 불포함): {price} 원")
         st.write(f"상품 구매 링크: {link}")
-        
+
+        table_data = {
+            '상품 이름': [name],
+            '상품 구매 사이트': [store],
+            '상품 구매 가격(수수료 불포함)': [price],
+            '상품 구매 링크': [link]
+        }
+        st.table(table_data)
+
     else:
         st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
