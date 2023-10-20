@@ -16,9 +16,7 @@ def get_app_data(appid):
     data = response.json()['data']
     
     if data:
-        row = data[0]
-        return row[1], row[2], row[3], row[4]
-    return None
+        return pd.DataFrame(data, columns=['AppID', 'Name', 'Store', 'Price', 'Link'])
 
 def fetch_steam_price(appid):
     steam_api_url = f"https://store.steampowered.com/api/appdetails?appids={appid}&cc=kr"
@@ -26,6 +24,17 @@ def fetch_steam_price(appid):
     if steam_response[str(appid)]['success']:
         return steam_response[str(appid)]['data']['price_overview']['final_formatted']
     return "가격 정보 없음"
+
+def generate_html_table(df):
+    html = '<table>'
+    html += '<thead><tr><th>상품 이름</th><th>상품 구매 사이트</th><th>상품 구매 가격(수수료 불포함)</th><th>상품 구매 링크</th></tr></thead>'
+    html += '<tbody>'
+    
+    for index, row in df.iterrows():
+        html += f'<tr><td>{row["Name"]}</td><td>{row["Store"]}</td><td>{row["Price"]}</td><td><a href="{row["Link"]}">구매하기</a></td></tr>'
+        
+    html += '</tbody></table>'
+    return html
 
 url = st.text_input("스팀 주소를 입력하세요")
 
@@ -41,41 +50,7 @@ if st.button("검색"):
         st.image(f"https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg")
         st.write(f"상품 구매 사이트: {store}")
         st.write(f"상품 구매 가격(수수료 불포함): {price} 원")
-        st.markdown(f'[구매하기]({link})')
-
-
-
-
-        st.write(
-            f"""
-            <style>
-                table {{
-                    width: 100%;
-                    border-collapse: collapse;
-                }}
-                th, td {{
-                    text-align: left;
-                    border: 1px solid #ddd;
-                    padding: 8px;
-                }}
-            </style>
-            <table>
-                <tr>
-                    <th>상품 이름</th>
-                    <th>상품 구매 사이트</th>
-                    <th>상품 구매 가격(수수료 불포함)</th>
-                    <th>상품 구매 링크</th>
-                </tr>
-                <tr>
-                    <td>{name}</td>
-                    <td>{store}</td>
-                    <td>{price} 원</td>
-                    <td><a href="{link}" target="_blank">구매하기</a></td>
-                </tr>
-            </table>
-            """, unsafe_allow_html=True
-        )
-
-
+        st.markdown(f'[구매하기]({link})', unsafe_allow_html=True)
+        st.markdown(generate_html_table(app_data), unsafe_allow_html=True)
     else:
         st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
