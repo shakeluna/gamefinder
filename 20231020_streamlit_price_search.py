@@ -10,7 +10,7 @@ def get_app_data(appid):
     data = response.json()['forDb']
     
     for row in data:
-        if row['steamAppid'] == int(appid):
+        if str(row['steamAppid']) == str(appid):
             return row['name'], row['store'], row['price'], row['link']
     return None
 
