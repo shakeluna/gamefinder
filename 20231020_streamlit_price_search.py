@@ -3,7 +3,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 
-st.title('스팀 최저가 정보')
+st.title('스팀 게임 최저가 정보 제공 사이트')
 st.write('국내 외 다양한 사이트를 검색하여 스팀게임 최저가를 찾는 서비스입니다.')
 st.write('저희 사이트는 프로토타입 프로젝트로 Streamlit을 통해 웹사이트를 운영하고 있습니다.')
 st.write('Streamlit은 데이터 과학자와 엔지니어를 위한 빠르고 쉬운 웹 앱을 만들 수 있는 오픈소스 Python 라이브러리입니다.')
@@ -38,11 +38,11 @@ if st.button("검색"):
         name, store, price, link = app_data
         st.write(f"상품 이름: {name}")
         st.write(f"상품 구매 사이트: {store}")
-        st.write(f"상품 구매 가격(수수료 불포함): {price}")
+        st.write(f"상품 구매 가격(수수료 불포함): {price} 원")
         st.write(f"상품 구매 링크: {link}")
         st.image(f"https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg")
         
         steam_price = fetch_steam_price(appid)
         st.write(f"현재 스팀 가격: {steam_price} 원")
     else:
-        st.write("찾을 수 없습니다.")
+        st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
