@@ -69,7 +69,7 @@ if st.button("검색"):
                 <tr>
                     <td>{name}</td>
                     <td>{store}</td>
-                    <td>{price}</td>
+                    <td>{price} 원</td>
                     <td><a href="{link}" target="_blank">구매하기</a></td>
                 </tr>
             </table>
