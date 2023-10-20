@@ -42,7 +42,7 @@ if st.button("검색"):
     appid = url.split("/app/")[1].split("/")[0]
     app_data = get_app_data(appid)
     
-    if app_data:
+    if app_data is not None:
         name, store, price, link = app_data
         steam_price = fetch_steam_price(appid)
         st.write(f"현재 스팀 가격: {steam_price} 원")
