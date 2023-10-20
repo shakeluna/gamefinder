@@ -1,8 +1,15 @@
 import streamlit as st
 import requests
+from requests.auth import HTTPBasicAuth
 
-st.title('스팀 앱 정보')
+
+st.title('스팀 최저가 정보')
+st.write('국내 외 다양한 사이트를 검색하여 스팀게임 최저가를 찾는 서비스입니다.')
 st.write('저희 사이트는 프로토타입 프로젝트로 Streamlit을 통해 웹사이트를 운영하고 있습니다.')
+st.write('Streamlit은 데이터 과학자와 엔지니어를 위한 빠르고 쉬운 웹 앱을 만들 수 있는 오픈소스 Python 라이브러리입니다.')
+st.write('이상한 웹사이트가 아니라 전 세계에서 다양한 파이썬사용자들이 활용하는 웹사이트로 안전상의 이슈는 없습니다.')
+st.write('만약 사용전에 의심이 되신다면 직접 streamlit에 대해서 검색해보시기 바랍니다.')
+
 
 def get_app_data(appid):
     auth = HTTPBasicAuth('useradmin', 'awnetientoai11')
@@ -30,7 +37,7 @@ if st.button("검색"):
     if app_data:
         name, store, price, link = app_data
         st.write(f"이름: {name}")
-        st.write(f"상점: {store}")
+        st.write(f"사이트: {store}")
         st.write(f"가격: {price}")
         st.write(f"링크: {link}")
         st.image(f"https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg")
