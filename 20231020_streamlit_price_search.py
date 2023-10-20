@@ -28,7 +28,7 @@ def fetch_steam_price(appid):
         return steam_response[str(appid)]['data']['price_overview']['final_formatted']
     return "가격 정보 없음"
 
-url = st.text_input("스팀 URL을 입력하세요")
+url = st.text_input("스팀 주소를 입력하세요")
 
 if st.button("검색"):
     appid = url.split("/app/")[1].split("/")[0]
@@ -36,13 +36,13 @@ if st.button("검색"):
     
     if app_data:
         name, store, price, link = app_data
-        st.write(f"이름: {name}")
-        st.write(f"사이트: {store}")
-        st.write(f"가격: {price}")
-        st.write(f"링크: {link}")
+        st.write(f"상품 이름: {name}")
+        st.write(f"상품 구매 사이트: {store}")
+        st.write(f"상품 구매 가격(수수료 불포함): {price}")
+        st.write(f"상품 구매 링크: {link}")
         st.image(f"https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg")
         
         steam_price = fetch_steam_price(appid)
-        st.write(f"스팀 가격: {steam_price}")
+        st.write(f"현재 스팀 가격: {steam_price} 원")
     else:
         st.write("찾을 수 없습니다.")
