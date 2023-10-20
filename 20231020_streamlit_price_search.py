@@ -36,13 +36,13 @@ if st.button("검색"):
     
     if app_data:
         name, store, price, link = app_data
+        steam_price = fetch_steam_price(appid)
+        st.write(f"현재 스팀 가격: {steam_price} 원")
         st.write(f"상품 이름: {name}")
+        st.image(f"https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg")
         st.write(f"상품 구매 사이트: {store}")
         st.write(f"상품 구매 가격(수수료 불포함): {price} 원")
         st.write(f"상품 구매 링크: {link}")
-        st.image(f"https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg")
         
-        steam_price = fetch_steam_price(appid)
-        st.write(f"현재 스팀 가격: {steam_price} 원")
     else:
         st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
