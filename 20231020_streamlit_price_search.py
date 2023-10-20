@@ -22,7 +22,7 @@ def get_app_data(appid):
     return None
 
 def fetch_steam_price(appid):
-    steam_api_url = f"https://store.steampowered.com/api/appdetails?appids={appid}"
+    steam_api_url = f"https://store.steampowered.com/api/appdetails?appids={appid}&cc=kr"
     steam_response = requests.get(steam_api_url).json()
     if steam_response[str(appid)]['success']:
         return steam_response[str(appid)]['data']['price_overview']['final_formatted']
