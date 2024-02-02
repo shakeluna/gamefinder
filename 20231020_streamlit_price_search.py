@@ -12,12 +12,12 @@ st.write('만약 사용전에 의심이 되신다면 직접 streamlit에 대해�
 
 
 def get_app_data(appid):
-    response = requests.get(f"https://script.google.com/macros/s/AKfycbzRh27_8UVsjbUNR1XktEbB2iLE0P4nvP-W--FJYMQt7OUxwX87M1fQx5DS5UBiTP8/exec?steam_appid={appid}")
+    response = requests.get(f"https://script.google.com/macros/s/AKfycbw5ci2n5IgXzn2HkEDvh4wr9_08TBys3KqUBoDroFN4NOQTc4qGhHmZr7xPAT3F9ltI/exec?steam_appid={appid}")
     data = response.json()['data']
     
     if data:
-        df = pd.DataFrame(data, columns=['AppID', 'Name', 'Store', 'Price', 'Link'])
-        return df.sort_values(by='Price', ascending=True)
+        df = pd.DataFrame(data)
+        return df.sort_values(by='price', ascending=True)
 
 def fetch_steam_price(appid):
     steam_api_url = f"https://store.steampowered.com/api/appdetails?appids={appid}&cc=kr"
@@ -27,15 +27,39 @@ def fetch_steam_price(appid):
     return "가격 정보 없음"
 
 def generate_html_table(df):
-    html = '<table>'
+    # Adding some basic inline CSS for table styling
+    html = '''
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <table>
+    '''
+
     html += '<thead><tr><th>상품 이름</th><th>상품 구매 사이트</th><th>상품 구매 가격(수수료 불포함)</th><th>상품 구매 링크</th></tr></thead>'
     html += '<tbody>'
     
     for index, row in df.iterrows():
-        html += f'<tr><td>{row["Name"]}</td><td>{row["Store"]}</td><td>{row["Price"]}</td><td><a href="{row["Link"]}">구매하기</a></td></tr>'
+        # Formatting the price with commas
+        formatted_price = "{:,.0f} 원".format(row["price"])
+        html += f'<tr><td>{row["name"]}</td><td>{row["store"]}</td><td>{formatted_price}</td><td><a href="{row["link"]}">구매하기</a></td></tr>'
         
     html += '</tbody></table>'
     return html
+
 
 url = st.text_input("스팀 주소를 입력하세요")
 
@@ -45,16 +69,40 @@ if st.button("검색"):
     
     if app_data is not None and not app_data.empty:
         first_row = app_data.iloc[0]
-        name, store, price, link = first_row['Name'], first_row['Store'], first_row['Price'], first_row['Link']
+        name, store, price, link = first_row['name'], first_row['store'], first_row['price'], first_row['link']
         steam_price = fetch_steam_price(appid)
-        st.write(f"현재 스팀 가격: {steam_price} 원")
-        st.write(f"상품 이름: {name}")
-        st.image(f"https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg")
-        st.write(f"상품 구매 사이트: {store}")
-        st.write(f"상품 구매 가격(수수료 불포함): {price} 원")
-        st.markdown(f'[구매하기]({link})', unsafe_allow_html=True)
 
-        st.write("최저가 사이트 외 사이트 정보")
+        # Use Markdown for better formatting and apply inline CSS for styling
+        st.markdown(f"""
+    <style>
+        .info {{
+            font-size: 16px;
+            margin-bottom: 5px;
+        }}
+        .info-title {{
+            font-weight: bold;
+            display: inline-block;
+            width: 150px;
+        }}
+        .game-image {{
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }}
+    </style>
+    <div>
+        <div class="info"><span class="info-title">현재 스팀 가격:</span> {steam_price} 원</div>
+        <div class="info"><span class="info-title">상품 이름:</span> {name}</div>
+        <div class="info"><span class="info-title">상품 구매 사이트:</span> {store}</div>
+        <div class="info"><span class="info-title">상품 구매 가격(수수료 불포함):</span> {price:,.0f} 원</div>
+        <a href="{link}"><div class="info buy-link">구매하기</div></a>
+    </div>
+    """, unsafe_allow_html=True)
+
+        # Display game image
+        st.image(f"https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg", use_column_width=True)
+
+        st.markdown("### 최저가 사이트 외 사이트 정보")
         st.markdown(generate_html_table(app_data), unsafe_allow_html=True)
     else:
         st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
