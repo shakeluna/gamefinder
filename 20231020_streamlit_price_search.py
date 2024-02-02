@@ -116,9 +116,6 @@ if st.button("검색"):
             <a href="{link}">구매하기</a>
             """, unsafe_allow_html=True)
 
-        # Display game image
-        st.image(f"https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg", use_column_width=True)
-
         st.markdown("### 최저가 사이트 외 사이트 정보")
         st.markdown(generate_html_table(app_data), unsafe_allow_html=True)
     else:
