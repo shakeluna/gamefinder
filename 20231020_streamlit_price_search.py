@@ -27,26 +27,40 @@ def fetch_steam_price(appid):
     return "가격 정보 없음"
 
 def generate_html_table(df):
-    # Adding some basic inline CSS for table styling
+    # Adding enhanced inline CSS for responsive table styling
     html = '''
     <style>
-        table {
-            border-collapse: collapse;
+        .responsive-table {
             width: 100%;
+            border-collapse: collapse;
         }
-        th, td {
+        .responsive-table th, 
+        .responsive-table td {
             border: 1px solid #dddddd;
             text-align: left;
             padding: 8px;
         }
-        th {
+        .responsive-table th {
+            background-color: #f2f2f2;
+            font-size: 0.9em; /* Smaller font size for headers */
+        }
+        .responsive-table td {
+            font-size: 0.8em; /* Smaller font size for data */
+        }
+        .responsive-table tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+        .responsive-table a:link,
+        .responsive-table a:visited {
+            color: #007bff; /* Bootstrap primary color for links */
+            text-decoration: none;
+        }
+        .responsive-table a:hover,
+        .responsive-table a:active {
+            text-decoration: underline;
         }
     </style>
-    <table>
+    <table class="responsive-table">
     '''
 
     html += '<thead><tr><th>상품 이름</th><th>상품 구매 사이트</th><th>상품 구매 가격(수수료 불포함)</th><th>상품 구매 링크</th></tr></thead>'
@@ -54,12 +68,11 @@ def generate_html_table(df):
     
     for index, row in df.iterrows():
         # Formatting the price with commas
-        formatted_price = "{:,.0f} 원".format(row["price"])
+        formatted_price = f"{row['price']:,.0f} 원"
         html += f'<tr><td>{row["name"]}</td><td>{row["store"]}</td><td>{formatted_price}</td><td><a href="{row["link"]}">구매하기</a></td></tr>'
         
     html += '</tbody></table>'
     return html
-
 
 url = st.text_input("스팀 주소를 입력하세요")
 
@@ -74,30 +87,34 @@ if st.button("검색"):
 
         # Use Markdown for better formatting and apply inline CSS for styling
         st.markdown(f"""
-    <style>
-        .info {{
-            font-size: 16px;
-            margin-bottom: 5px;
-        }}
-        .info-title {{
-            font-weight: bold;
-            display: inline-block;
-            width: 150px;
-        }}
-        .game-image {{
-            width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }}
-    </style>
-    <div>
-        <div class="info"><span class="info-title">현재 스팀 가격:</span> {steam_price} 원</div>
-        <div class="info"><span class="info-title">상품 이름:</span> {name}</div>
-        <div class="info"><span class="info-title">상품 구매 사이트:</span> {store}</div>
-        <div class="info"><span class="info-title">상품 구매 가격(수수료 불포함):</span> {price:,.0f} 원</div>
-        <a href="{link}"><div class="info buy-link">구매하기</div></a>
-    </div>
-    """, unsafe_allow_html=True)
+            <style>
+                table {{
+                    width: 100%;
+                    border-collapse: collapse;
+                }}
+                th, td {{
+                    text-align: left;
+                    padding: 8px;
+                    border-bottom: 1px solid #ddd;
+                }}
+                th {{
+                    background-color: #f2f2f2;
+                }}
+                img.game-image {{
+                    max-width: 100%;
+                    height: auto;
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                }}
+            </style>
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg" class="game-image">
+            <div>현재 스팀 가격: {steam_price} 원</div>
+            <div>상품 이름: {name}</div>
+            <div>상품 구매 사이트: {store}</div>
+            <div>상품 구매 가격(수수료 불포함): {price:,.0f} 원</div>
+            <a href="{link}">구매하기</a>
+            """, unsafe_allow_html=True)
 
         # Display game image
         st.image(f"https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg", use_column_width=True)
