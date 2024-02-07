@@ -100,10 +100,10 @@ if st.button("검색"):
                 }}
             </style>
             <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg" class="game-image">
-            <div>현재 스팀 가격: {steam_price} 원</div>
+            <div>현재 스팀 가격: {steam_price} </div>
             <div>상품 이름: {name}</div>
             <div>상품 구매 사이트: {store}</div>
-            <div>상품 구매 가격(수수료 불포함): {price:,.0f} 원</div>
+            <div>상품 구매 최저가(수수료 불포함): {price:,.0f} 원</div>
             <a href="{link}">구매하기</a>
             """, unsafe_allow_html=True)
 
