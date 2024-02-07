@@ -2,15 +2,6 @@ import streamlit as st
 import requests
 import pandas as pd
 
-
-st.title('스팀 게임 최저가 정보 제공 사이트')
-st.write('국내 외 다양한 사이트를 검색하여 스팀게임 최저가를 찾는 서비스입니다.')
-st.write('저희 사이트는 프로토타입 프로젝트로 Streamlit을 통해 웹사이트를 운영하고 있습니다.')
-st.write('Streamlit은 데이터 과학자와 엔지니어를 위한 빠르고 쉬운 웹 앱을 만들 수 있는 오픈소스 Python 라이브러리입니다.')
-st.write('이상한 웹사이트가 아니라 전 세계에서 다양한 파이썬사용자들이 활용하는 웹사이트로 안전상의 이슈는 없습니다.')
-st.write('만약 사용전에 의심이 되신다면 직접 streamlit에 대해서 검색해보시기 바랍니다.')
-
-
 def get_app_data(appid):
     response = requests.get(f"https://script.google.com/macros/s/AKfycbw5ci2n5IgXzn2HkEDvh4wr9_08TBys3KqUBoDroFN4NOQTc4qGhHmZr7xPAT3F9ltI/exec?steam_appid={appid}")
     data = response.json()['data']
