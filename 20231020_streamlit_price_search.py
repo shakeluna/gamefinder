@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 
 def get_app_data(appid):
-    response = requests.get(f"https://script.google.com/macros/s/AKfycbw5ci2n5IgXzn2HkEDvh4wr9_08TBys3KqUBoDroFN4NOQTc4qGhHmZr7xPAT3F9ltI/exec?steam_appid={appid}")
+    response = requests.get(f"https://script.google.com/macros/s/AKfycbyfZoLvkgh-jfc2VuZDAds52UA2IkBy6U9gKNbiai31VTkTMzyEdflDB_sfPFSCd7M/exec?steam_appid={appid}")
     data = response.json()['data']
     
     if data:
