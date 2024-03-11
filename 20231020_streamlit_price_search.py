@@ -13,8 +13,11 @@ def get_app_data(appid):
 def fetch_steam_price(appid):
     steam_api_url = f"https://store.steampowered.com/api/appdetails?appids={appid}&cc=kr"
     steam_response = requests.get(steam_api_url).json()
-    if steam_response[str(appid)]['success']:
-        return steam_response[str(appid)]['data']['price_overview']['final_formatted']
+    try:
+        if steam_response[str(appid)]['success']:
+            return steam_response[str(appid)]['data']['price_overview']['final_formatted']
+    except:
+        return "스팀 가격 정보 확인 불가"
     return "가격 정보 없음"
 
 def generate_html_table(df):
