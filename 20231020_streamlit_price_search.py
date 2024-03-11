@@ -22,15 +22,9 @@ def fetch_steam_price(appid):
     return "가격 정보 없음"
 
 def log_search_to_sheet(queried_url):
-    web_app_url = 'https://script.google.com/macros/s/AKfycbxjZkbFucdlizWq_ivc26nijKHx7s9dIs9-ywHjNTCAy2y72hEoZW9N-3sQ772Fwi7u/exec'
-    headers = {'Content-Type': 'application/json'}
+    url = 'https://script.google.com/macros/s/AKfycbxjZkbFucdlizWq_ivc26nijKHx7s9dIs9-ywHjNTCAy2y72hEoZW9N-3sQ772Fwi7u/exec'
     data = {'queriedUrl': queried_url}
-    
-    try:
-        response = requests.post(web_app_url, json=data, headers=headers)
-        print(response.text)  # You can remove this line or handle logging differently
-    except Exception as e:
-        print(f"Error logging to sheet: {e}")
+    response = requests.post(web_app_url, json=data)
 
 def generate_html_table(df):
     # Adding enhanced inline CSS for responsive table styling
