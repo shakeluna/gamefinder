@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import pandas as pd
+import datetime
 
 def get_app_data(appid):
     response = requests.get(f"https://script.google.com/macros/s/AKfycbyfZoLvkgh-jfc2VuZDAds52UA2IkBy6U9gKNbiai31VTkTMzyEdflDB_sfPFSCd7M/exec?steam_appid={appid}")
@@ -19,6 +20,17 @@ def fetch_steam_price(appid):
     except:
         return "스팀 가격 정보 확인 불가"
     return "가격 정보 없음"
+
+def log_search_to_sheet(queried_url):
+    web_app_url = 'https://script.google.com/macros/s/AKfycbyhRjSmxEQiV2A1MCvD2xMfrCCxL7Ft12EvVypGsUdkhY9J2Zne5lPsTx04IHE9e3pi/exec'  # Replace with your web app URL
+    headers = {'Content-Type': 'application/json'}
+    data = {'queriedUrl': queried_url}
+    
+    try:
+        response = requests.post(web_app_url, json=data, headers=headers)
+        print(response.text)  # You can remove this line or handle logging differently
+    except Exception as e:
+        print(f"Error logging to sheet: {e}")
 
 def generate_html_table(df):
     # Adding enhanced inline CSS for responsive table styling
@@ -73,6 +85,8 @@ url = st.text_input("스팀 주소를 입력하세요")
 if st.button("검색"):
     appid = url.split("/app/")[1].split("/")[0]
     app_data = get_app_data(appid)
+    queried_url = f"https://store.steampowered.com/app/{appid}/"
+    log_search_to_sheet(queried_url)
     
     if app_data is not None and not app_data.empty:
         first_row = app_data.iloc[0]
