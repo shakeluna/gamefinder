@@ -24,7 +24,7 @@ def fetch_steam_price(appid):
 def log_search_to_sheet(queried_url):
     url = 'https://script.google.com/macros/s/AKfycbxjZkbFucdlizWq_ivc26nijKHx7s9dIs9-ywHjNTCAy2y72hEoZW9N-3sQ772Fwi7u/exec'
     data = {'queriedUrl': queried_url}
-    response = requests.post(web_app_url, json=data)
+    response = requests.post(url, json=data)
 
 def generate_html_table(df):
     # Adding enhanced inline CSS for responsive table styling
