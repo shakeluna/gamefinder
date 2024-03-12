@@ -67,9 +67,13 @@ def generate_html_table(df):
     html += '<tbody>'
     
     for index, row in df.iterrows():
-        # Formatting the price with commas
         formatted_price = f"{row['price']:,.0f} 원"
-        html += f'<tr><td>{row["name"]}</td><td>{row["store"]}</td><td>{formatted_price}</td><td><a href="{row["link"]}">구매하기</a></td></tr>'
+        # Modify the link to redirect through your Google Apps Script for logging
+        logging_url = "https://script.google.com/macros/s/AKfycbxL-gRJRpp2X9I6NJS0_n3DAHlHyTGoSatKvpgoZECJ8cu0S5PazJapmAzqztwCt8sp/exec"
+        # Ensure the productLink is URL-encoded to avoid issues in the redirect
+        encoded_product_link = requests.utils.quote(row["link"])
+        log_and_redirect_link = f"{logging_url}?productLink={encoded_product_link}"
+        html += f'<tr><td>{row["name"]}</td><td>{row["store"]}</td><td>{formatted_price}</td><td><a href="{log_and_redirect_link}" target="_blank">구매하기</a></td></tr>'
         
     html += '</tbody></table>'
     return html
