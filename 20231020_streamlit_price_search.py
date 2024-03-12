@@ -7,7 +7,7 @@ js = """
 <script>
 function logClickAndRedirect(event, url) {
     event.preventDefault(); // Prevent the link from directing immediately.
-    var logUrl = 'https://script.google.com/macros/s/AKfycbxL-gRJRpp2X9I6NJS0_n3DAHlHyTGoSatKvpgoZECJ8cu0S5PazJapmAzqztwCt8sp/exec'; // Update YOUR_ENDPOINT
+    var logUrl = 'https://script.google.com/macros/s/AKfycbzSQj8FbEsCCRBEX-1RluqOHLj9F48XnJVQlkmgfbSGGobYjKGPSisU8r8IfOLjNuyv/exec'; // Update YOUR_ENDPOINT
     fetch(logUrl, {
         method: 'POST',
         mode: 'no-cors', // Important for avoiding CORS issues
