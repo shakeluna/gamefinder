@@ -3,30 +3,6 @@ import requests
 import pandas as pd
 import datetime
 
-js = """
-<script>
-function logClickAndRedirect(event, url) {
-    event.preventDefault(); // Prevent the link from directing immediately.
-    var logUrl = 'https://script.google.com/macros/s/AKfycbzSQj8FbEsCCRBEX-1RluqOHLj9F48XnJVQlkmgfbSGGobYjKGPSisU8r8IfOLjNuyv/exec'; // Update YOUR_ENDPOINT
-    fetch(logUrl, {
-        method: 'POST',
-        mode: 'no-cors', // Important for avoiding CORS issues
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({productLink: url})
-    }).then(() => {
-        window.location.href = url; // Redirect after logging
-    }).catch(() => {
-        window.location.href = url; // Redirect even if logging fails
-    });
-    return false; // Prevent default link behavior
-}
-</script>
-"""
-st.markdown(js, unsafe_allow_html=True)
-
-
 def get_app_data(appid):
     response = requests.get(f"https://script.google.com/macros/s/AKfycbyfZoLvkgh-jfc2VuZDAds52UA2IkBy6U9gKNbiai31VTkTMzyEdflDB_sfPFSCd7M/exec?steam_appid={appid}")
     data = response.json()['data']
