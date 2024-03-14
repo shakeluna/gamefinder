@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import datetime
+import time
 
 def get_app_data(appid):
     response = requests.get(f"https://script.google.com/macros/s/AKfycbyfZoLvkgh-jfc2VuZDAds52UA2IkBy6U9gKNbiai31VTkTMzyEdflDB_sfPFSCd7M/exec?steam_appid={appid}")
