@@ -77,48 +77,58 @@ def generate_html_table(df):
 url = st.text_input("스팀 주소를 입력하세요")
 
 if st.button("검색"):
-    appid = url.split("/app/")[1].split("/")[0]
-    app_data = get_app_data(appid)
-    queried_url = f"https://store.steampowered.com/app/{appid}/"
-    log_search_to_sheet(queried_url)
+    with st.spinner('Processing...'):
+        progress_bar = st.progress(0)
+        
+        # Simulate process update
+        for i in range(100):
+            # Update progress bar with each iteration.
+            progress_bar.progress(i+1)
+            time.sleep(0.01)  # Simulate processing time
+        appid = url.split("/app/")[1].split("/")[0]
+        app_data = get_app_data(appid)
+        queried_url = f"https://store.steampowered.com/app/{appid}/"
+        log_search_to_sheet(queried_url)
+        
+        if app_data is not None and not app_data.empty:
+            first_row = app_data.iloc[0]
+            name, store, price, link = first_row['name'], first_row['store'], first_row['price'], first_row['link']
+            steam_price = fetch_steam_price(appid)
     
-    if app_data is not None and not app_data.empty:
-        first_row = app_data.iloc[0]
-        name, store, price, link = first_row['name'], first_row['store'], first_row['price'], first_row['link']
-        steam_price = fetch_steam_price(appid)
-
-        # Use Markdown for better formatting and apply inline CSS for styling
-        st.markdown(f"""
-            <style>
-                table {{
-                    width: 100%;
-                    border-collapse: collapse;
-                }}
-                th, td {{
-                    text-align: left;
-                    padding: 8px;
-                    border-bottom: 1px solid #ddd;
-                }}
-                th {{
-                    background-color: #f2f2f2;
-                }}
-                img.game-image {{
-                    max-width: 100%;
-                    height: auto;
-                    display: block;
-                    margin-left: auto;
-                    margin-right: auto;
-                }}
-            </style>
-            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg" class="game-image">
-            <div>현재 스팀 가격: {steam_price} </div>
-            <div>상품 이름: {name}</div>
-            <div>상품 구매 사이트: {store}</div>
-            <div>상품 구매 최저가(수수료 불포함): {price:,.0f} 원</div>
-            <a href="{link}">구매하기</a>
-            """, unsafe_allow_html=True)
-
-        st.markdown("### 최저가 사이트 외 사이트 정보")
-        st.markdown(generate_html_table(app_data), unsafe_allow_html=True)
-    else:
-        st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
+            # Use Markdown for better formatting and apply inline CSS for styling
+            st.markdown(f"""
+                <style>
+                    table {{
+                        width: 100%;
+                        border-collapse: collapse;
+                    }}
+                    th, td {{
+                        text-align: left;
+                        padding: 8px;
+                        border-bottom: 1px solid #ddd;
+                    }}
+                    th {{
+                        background-color: #f2f2f2;
+                    }}
+                    img.game-image {{
+                        max-width: 100%;
+                        height: auto;
+                        display: block;
+                        margin-left: auto;
+                        margin-right: auto;
+                    }}
+                </style>
+                <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg" class="game-image">
+                <div>현재 스팀 가격: {steam_price} </div>
+                <div>상품 이름: {name}</div>
+                <div>상품 구매 사이트: {store}</div>
+                <div>상품 구매 최저가(수수료 불포함): {price:,.0f} 원</div>
+                <a href="{link}">구매하기</a>
+                """, unsafe_allow_html=True)
+    
+            st.markdown("### 최저가 사이트 외 사이트 정보")
+            st.markdown(generate_html_table(app_data), unsafe_allow_html=True)
+        else:
+            st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
+        # Complete the progress bar when process is done
+        progress_bar.progress(100)
