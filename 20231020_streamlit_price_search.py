@@ -126,9 +126,9 @@ if st.button("검색"):
                                     <div>상품 구매 최저가(수수료 불포함): {price:,.0f} 원</div>
                                     <a href="{link}">구매하기</a>
                                 """
-st.markdown("### 최저가 사이트 외 사이트 정보")
-st.markdown(markdown_content, unsafe_allow_html=True)
-else:
-    st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
+        st.markdown("### 최저가 사이트 외 사이트 정보")
+        st.markdown(markdown_content, unsafe_allow_html=True)
+        else:
+            st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
 # Complete the progress bar when process is done
 progress_bar.progress(100)
