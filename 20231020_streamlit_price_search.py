@@ -95,8 +95,10 @@ if st.button("검색"):
             first_row = app_data.iloc[0]
             name, store, price, link = first_row['name'], first_row['store'], first_row['price'], first_row['link']
             steam_price = fetch_steam_price(appid)
-    
-            # Use Markdown for better formatting and apply inline CSS for styling
+
+            # Format the price with commas
+            formatted_price = f"{price:,.0f} 원"
+            
             markdown_content = f"""
                                     <style>
                                         table {{
@@ -123,9 +125,12 @@ if st.button("검색"):
                                     <div><strong>현재 스팀 가격:</strong> {steam_price}</div>
                                     <div><strong>상품 이름:</strong> {name}</div>
                                     <div><strong>상품 구매 사이트:</strong> {store}</div>
-                                    <div><strong>상품 구매 최저가(수수료 불포함):</strong> {price:,.0f} 원</div>
+                                    <div><strong>상품 구매 최저가(수수료 불포함):</strong> {formatted_price}</div>
                                     <a href="{link}">구매하기</a>
                                 """
+    
+            # Use Markdown for better formatting and apply inline CSS for styling
+            
             st.markdown("### 최저가 사이트 외 사이트 정보")
             st.markdown(markdown_content, unsafe_allow_html=True)
             
