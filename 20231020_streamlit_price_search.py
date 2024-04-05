@@ -96,8 +96,11 @@ if st.button("검색"):
             name, store, price, link = first_row['name'], first_row['store'], first_row['price'], first_row['link']
             steam_price = fetch_steam_price(appid)
 
-            # Format the price with commas
-            formatted_price = "{:,.0f} 원".format(float(price))
+            # Check if price is a numerical value
+            if isinstance(price, (int, float)):
+                formatted_price = "{:,.0f} 원".format(float(price))
+            else:
+                formatted_price = "가격 정보 없음"
             
             markdown_content = f"""
                                     <style>
@@ -128,9 +131,7 @@ if st.button("검색"):
                                     <div><strong>상품 구매 최저가(수수료 불포함):</strong> {formatted_price}</div>
                                     <a href="{link}">구매하기</a>
                                 """
-    
-            # Use Markdown for better formatting and apply inline CSS for styling
-            
+                            
             st.markdown("### 최저가 사이트 외 사이트 정보")
             st.markdown(markdown_content, unsafe_allow_html=True)
             
