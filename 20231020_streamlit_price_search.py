@@ -5,12 +5,25 @@ import datetime
 import time
 
 def get_app_data(appid):
-    response = requests.get(f"https://script.google.com/macros/s/AKfycbzwrrnItSVKZA3CM5xMjCpr4DqxljePUWg-nzdt-p9uQZ0dGkYxAdbOSOKRyIxDThbs/exec?steam_appid={appid}")
-    data = response.json()['data']
-    
+    urls = [
+        f"https://script.google.com/macros/s/AKfycbzq65rrm5fwUnkrtZWFPbIZTi7SM8IJLqSWl3n43LbRIMMNPjAWhZhF-i5xhOBycWSw/exec?steam_appid={appid}",
+        f"https://script.google.com/macros/s/AKfycbyeoWTHrIVzt6AAt8B-YsVC0ZKZ6gJAZPLrgf4hmZLBSMlgixuULbVrRmaq-LoaFNgr/exec?steam_appid={appid}",
+        f"https://script.google.com/macros/s/AKfycbye8RWzXpiv9NcKF8laC688RLkUQxAVQ08RNP5EmshRjJe7RQKdOR-5vqpE4EZ_A68/exec?steam_appid={appid}"
+    ]
+
+    data = []
+    for url in urls:
+        response = requests.get(url)
+        if response.status_code == 200:
+            api_data = response.json()['data']
+            if api_data:
+                data.extend(api_data)
+
     if data:
         df = pd.DataFrame(data)
         return df.sort_values(by='price', ascending=True)
+    else:
+        return None
 
 def fetch_steam_price(appid):
     steam_api_url = f"https://store.steampowered.com/api/appdetails?appids={appid}&cc=kr"
