@@ -97,39 +97,38 @@ if st.button("검색"):
             steam_price = fetch_steam_price(appid)
     
             # Use Markdown for better formatting and apply inline CSS for styling
-            st.markdown(f"""
-                <style>
-                    table {{
-                        width: 100%;
-                        border-collapse: collapse;
-                    }}
-                    th, td {{
-                        text-align: left;
-                        padding: 8px;
-                        border-bottom: 1px solid #ddd;
-                    }}
-                    th {{
-                        background-color: #f2f2f2;
-                    }}
-                    img.game-image {{
-                        max-width: 100%;
-                        height: auto;
-                        display: block;
-                        margin-left: auto;
-                        margin-right: auto;
-                    }}
-                </style>
-                <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg" class="game-image">
-                <div>현재 스팀 가격: {steam_price} </div>
-                <div>상품 이름: {name}</div>
-                <div>상품 구매 사이트: {store}</div>
-                <div>상품 구매 최저가(수수료 불포함): {price:,.0f} 원</div>
-                <a href="{link}">구매하기</a>
-                """, unsafe_allow_html=True)
-    
-            st.markdown("### 최저가 사이트 외 사이트 정보")
-            st.markdown(generate_html_table(app_data), unsafe_allow_html=True)
-        else:
-            st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
-        # Complete the progress bar when process is done
-        progress_bar.progress(100)
+            markdown_content = f"""
+                                    <style>
+                                        table {{
+                                            width: 100%;
+                                            border-collapse: collapse;
+                                        }}
+                                        th, td {{
+                                            text-align: left;
+                                            padding: 8px;
+                                            border-bottom: 1px solid #ddd;
+                                        }}
+                                        th {{
+                                            background-color: #f2f2f2;
+                                        }}
+                                        img.game-image {{
+                                            max-width: 100%;
+                                            height: auto;
+                                            display: block;
+                                            margin-left: auto;
+                                            margin-right: auto;
+                                        }}
+                                    </style>
+                                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg" class="game-image">
+                                    <div>현재 스팀 가격: {steam_price} </div>
+                                    <div>상품 이름: {name}</div>
+                                    <div>상품 구매 사이트: {store}</div>
+                                    <div>상품 구매 최저가(수수료 불포함): {price:,.0f} 원</div>
+                                    <a href="{link}">구매하기</a>
+                                """
+st.markdown("### 최저가 사이트 외 사이트 정보")
+st.markdown(markdown_content, unsafe_allow_html=True)
+else:
+    st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
+# Complete the progress bar when process is done
+progress_bar.progress(100)
