@@ -136,9 +136,9 @@ if st.button("검색"):
             table_html = generate_html_table(app_data)
             
             # Combine the markdown content and the table HTML
-            final_content = f"{markdown_content}\n{table_html}"
+            final_content = f"{table_html}"
             
-            st.markdown("### 최저가 사이트 외 사이트 정보")
+            st.markdown("### 각 스토어 가격 정보")
             st.markdown(final_content, unsafe_allow_html=True)
                     
         else:
