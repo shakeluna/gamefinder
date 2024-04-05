@@ -97,7 +97,7 @@ if st.button("검색"):
             steam_price = fetch_steam_price(appid)
 
             # Format the price with commas
-            formatted_price = f"{price:,.0f} 원"
+            formatted_price = "{:,.0f} 원".format(float(price))
             
             markdown_content = f"""
                                     <style>
