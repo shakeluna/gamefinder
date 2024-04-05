@@ -5,7 +5,7 @@ import datetime
 import time
 
 def get_app_data(appid):
-    response = requests.get(f"https://script.google.com/macros/s/AKfycbxFgD6gzGca_NXW7k-oHXRV1OPfmqaWzj9PA_WT8S8CTvKboHUM8-NhwVPGvF2g-qwR/exec?steam_appid={appid}")
+    response = requests.get(f"https://script.google.com/macros/s/AKfycbzwrrnItSVKZA3CM5xMjCpr4DqxljePUWg-nzdt-p9uQZ0dGkYxAdbOSOKRyIxDThbs/exec?steam_appid={appid}")
     data = response.json()['data']
     
     if data:
