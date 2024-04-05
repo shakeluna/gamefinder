@@ -132,9 +132,15 @@ if st.button("검색"):
                                     <a href="{link}">구매하기</a>
                                 """
                             
-            st.markdown("### 최저가 사이트 외 사이트 정보")
-            st.markdown(markdown_content, unsafe_allow_html=True)
+            # Generate the HTML table using the app_data DataFrame
+            table_html = generate_html_table(app_data)
             
+            # Combine the markdown content and the table HTML
+            final_content = f"{markdown_content}\n{table_html}"
+            
+            st.markdown("### 최저가 사이트 외 사이트 정보")
+            st.markdown(final_content, unsafe_allow_html=True)
+                    
         else:
             st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
         
