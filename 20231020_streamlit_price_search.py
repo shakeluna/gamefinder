@@ -6,9 +6,12 @@ import time
 
 def get_app_data(appid):
     urls = [
+        #c1
         f"https://script.google.com/macros/s/AKfycbzS9nvWY4_CSyFrqFguyE8Gq1ItBx7vBAeI9M5ExVlBbggV9ldiG3ASAk2IoEtJrGh5/exec?steam_appid={appid}",
+        #c2
         f"https://script.google.com/macros/s/AKfycbyeoWTHrIVzt6AAt8B-YsVC0ZKZ6gJAZPLrgf4hmZLBSMlgixuULbVrRmaq-LoaFNgr/exec?steam_appid={appid}",
-        f"https://script.google.com/macros/s/AKfycbzq65rrm5fwUnkrtZWFPbIZTi7SM8IJLqSWl3n43LbRIMMNPjAWhZhF-i5xhOBycWSw/exec?steam_appid={appid}"
+        #kinguin
+        f"https://script.google.com/macros/s/AKfycbxdrqKXnWh8_H8nP3KMuZoSNp4WxpHoTIyz6so5MzlXvCkaSTpF7-E6C_cxXT0dSwSV/exec?steam_appid={appid}"
     ]
 
     data = []
