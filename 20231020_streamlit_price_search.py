@@ -97,7 +97,7 @@ if st.button("검색"):
             steam_price = fetch_steam_price(appid)
     
             # Use Markdown for better formatting and apply inline CSS for styling
-            markdown_content = """
+            markdown_content = f"""
                                     <style>
                                         table {{
                                             width: 100%;
@@ -120,10 +120,10 @@ if st.button("검색"):
                                         }}
                                     </style>
                                     <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg" class="game-image">
-                                    <div>현재 스팀 가격: {steam_price} </div>
-                                    <div>상품 이름: {name}</div>
-                                    <div>상품 구매 사이트: {store}</div>
-                                    <div>상품 구매 최저가(수수료 불포함): {price:,.0f} 원</div>
+                                    <div><strong>현재 스팀 가격:</strong> {steam_price}</div>
+                                    <div><strong>상품 이름:</strong> {name}</div>
+                                    <div><strong>상품 구매 사이트:</strong> {store}</div>
+                                    <div><strong>상품 구매 최저가(수수료 불포함):</strong> {price:,.0f} 원</div>
                                     <a href="{link}">구매하기</a>
                                 """
             st.markdown("### 최저가 사이트 외 사이트 정보")
