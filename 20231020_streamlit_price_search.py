@@ -97,7 +97,7 @@ if st.button("검색"):
             steam_price = fetch_steam_price(appid)
     
             # Use Markdown for better formatting and apply inline CSS for styling
-            markdown_content = f"""
+            markdown_content = """
                                     <style>
                                         table {{
                                             width: 100%;
@@ -131,6 +131,6 @@ if st.button("검색"):
             
         else:
             st.write("해당 게임을 찾을 수 없습니다. 디럭스 에디션 등 다양한 에디션은 찾는데 제한이 있을 수 있습니다.")
-            
-# Complete the progress bar when process is done
-progress_bar.progress(100)
+        
+        # Complete the progress bar when process is done
+        progress_bar.progress(100)
