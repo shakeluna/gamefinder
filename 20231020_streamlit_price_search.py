@@ -11,7 +11,7 @@ def get_app_data(appid):
         #c2
         f"https://script.google.com/macros/s/AKfycbyeoWTHrIVzt6AAt8B-YsVC0ZKZ6gJAZPLrgf4hmZLBSMlgixuULbVrRmaq-LoaFNgr/exec?steam_appid={appid}",
         #kinguin
-        f"https://script.google.com/macros/s/AKfycbxdrqKXnWh8_H8nP3KMuZoSNp4WxpHoTIyz6so5MzlXvCkaSTpF7-E6C_cxXT0dSwSV/exec?steam_appid={appid}"
+        f"https://script.google.com/macros/s/AKfycbzV1bxdxpn-uHWYZCc3V0TFlIozh_RlDee09gLDbWK12Kk9VRdph7PGbXOcXRXEDSPx/exec?steam_appid={appid}"
     ]
 
     data = []
