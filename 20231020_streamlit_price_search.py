@@ -24,7 +24,7 @@ def get_app_data(appid):
 
     if data:
         df = pd.DataFrame(data)
-        return df.sort_values(by='price', ascending=True)
+        return df.assign(price=pd.to_numeric(df['price'], errors='coerce')).dropna(subset=['price']).sort_values(by='price', ascending=True)
     else:
         return None
 
