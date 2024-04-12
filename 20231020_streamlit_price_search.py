@@ -5,6 +5,11 @@ import datetime
 import time
 
 def get_app_data(appid):
+    try:
+        appid = int(appid)
+    except ValueError:
+        return None
+        
     if 1 <= appid <= 300000:
         url = f"https://script.google.com/macros/s/AKfycbyIQNRS86_ZPmlsWO5wr9g1-E23UlL5zxyF4OG6hd6uQheJqsc_QcCeElT8RtIg1YQ5Nw/exec?steam_appid={appid}"
     elif 300001 <= appid <= 600000:
