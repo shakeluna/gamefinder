@@ -5,28 +5,37 @@ import datetime
 import time
 
 def get_app_data(appid):
-    urls = [
-        #c1
-        f"https://script.google.com/macros/s/AKfycbzS9nvWY4_CSyFrqFguyE8Gq1ItBx7vBAeI9M5ExVlBbggV9ldiG3ASAk2IoEtJrGh5/exec?steam_appid={appid}",
-        #c2
-        f"https://script.google.com/macros/s/AKfycbyeoWTHrIVzt6AAt8B-YsVC0ZKZ6gJAZPLrgf4hmZLBSMlgixuULbVrRmaq-LoaFNgr/exec?steam_appid={appid}",
-        #kinguin
-        f"https://script.google.com/macros/s/AKfycbxR8znlYv4DLVzV6SUFtCqnRNxkKtqwTuep7EKS7g5cnMp6wFdbYrcfPP3DIVs8ird3/exec?steam_appid={appid}"
-    ]
-
-    data = []
-    for url in urls:
-        response = requests.get(url)
-        if response.status_code == 200:
-            api_data = response.json()['data']
-            if api_data:
-                data.extend(api_data)
-
-    if data:
-        df = pd.DataFrame(data)
-        return df.assign(price=pd.to_numeric(df['price'], errors='coerce')).dropna(subset=['price']).sort_values(by='price', ascending=True)
+    if 1 <= appid <= 300000:
+        url = f"https://script.google.com/macros/s/AKfycbyIQNRS86_ZPmlsWO5wr9g1-E23UlL5zxyF4OG6hd6uQheJqsc_QcCeElT8RtIg1YQ5Nw/exec?steam_appid={appid}"
+    elif 300001 <= appid <= 600000:
+        url = f"https://script.google.com/macros/s/AKfycbz2uUQJXoqzgP6JBECwBsfiXG4bIaMsr6HAgbosC_ySbb4-9i8N-6C8lA7jdUnWVeAO/exec?steam_appid={appid}"
+    elif 600001 <= appid <= 900000:
+        url = f"https://script.google.com/macros/s/AKfycbxSvF4g3iCIchM5whNjTzvasFIH8KLj7IcmEY692pwVYmVTDKFZbknZfPNteOO8zsZGdw/exec?steam_appid={appid}"
+    elif 900001 <= appid <= 1200000:
+        url = f"https://script.google.com/macros/s/AKfycbwo1hWUsBnJBZV-sT9aa3BXSLs0G9Gql8480aX75mmKGzVRnrY5mAGZ9ZlUHH9kBQKrzg/exec?steam_appid={appid}"
+    elif 1200001 <= appid <= 1500000:
+        url = f"https://script.google.com/macros/s/AKfycbwkHOiqzJoveMTZcgfRy-_bJb-aSB65gjlTXt9LeHlDNbXmTzLIeb_R1CQfqsoGM_kY3w/exec?steam_appid={appid}"
+    elif 1500001 <= appid <= 1800000:
+        url = f"https://script.google.com/macros/s/AKfycbxlXrtBiO8dr7kIOu26QNj7oPDYZYPONqyCdWXodAkcFlHcouwAGrF-t0JYejDEI7jz/exec?steam_appid={appid}"
+    elif 1800001 <= appid <= 2100000:
+        url = f"https://script.google.com/macros/s/AKfycbxMwmSY1V7ippEiYYsdxUJgG5-3qFgBgNw4C8wxU0m7OnYs_VR_rhcREqtuIG__rsBV/exec?steam_appid={appid}"
+    elif 2100001 <= appid <= 2400000:
+        url = f"https://script.google.com/macros/s/AKfycbw5tafPV6Irz14D9SWUp988Oqxi5G7DR-W2nHP2EbPmc8X9Q-F7CtW0Z7CjHYjeGAeF/exec?steam_appid={appid}"
+    elif 2400001 <= appid <= 2700000:
+        url = f"https://script.google.com/macros/s/AKfycbyloLrn8cOIQSTRbuODb2OUnXE_Dc143LBl4CSFx_I6L4DGK9auM_vNTCrL7Jo7sdvs/exec?steam_appid={appid}"
+    elif 2700001 <= appid <= 3000000:
+        url = f"https://script.google.com/macros/s/AKfycbx2uB6sGx2Je0UTdJsRe_5ktQP88Z6L5ZrGYgA5SASfj3JoiaEePk_5etfH0PyLAPKA/exec?steam_appid={appid}"
     else:
         return None
+
+    response = requests.get(url)
+    if response.status_code == 200:
+        api_data = response.json()['data']
+        if api_data:
+            df = pd.DataFrame(api_data)
+            return df.assign(price=pd.to_numeric(df['price'], errors='coerce')).dropna(subset=['price']).sort_values(by='price', ascending=True)
+    
+    return None
 
 def fetch_steam_price(appid):
     steam_api_url = f"https://store.steampowered.com/api/appdetails?appids={appid}&cc=kr"
