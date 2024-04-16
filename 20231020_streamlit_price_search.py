@@ -45,7 +45,7 @@ def get_app_data(appid):
 
     new_row = pd.DataFrame({
     'name': [game],
-    'steamapp_id': [steamapp_id],
+    'steam_appid': [steamapp_id],
     'link': [link]
     'price': [price],
     'store': [store],
