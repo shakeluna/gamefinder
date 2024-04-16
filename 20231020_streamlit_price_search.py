@@ -33,11 +33,32 @@ def get_app_data(appid):
     else:
         return None
 
+    steam_api_url = f"https://store.steampowered.com/api/appdetails?appids={appid}&cc=kr"
+    steam_response = requests.get(steam_api_url).json()
+    game = steam_response[str(appid)]['data']['name']
+    price = steam_response[str(appid)]['data']['price_overview']['final_formatted']
+    steamapp_id = appid
+    link = "https://store.steampowered.com/app/{appid}"
+    price = int(re.sub(r'[^0-9]', '', price))
+    original_price = price
+    store = "스팀"
+
+    new_row = pd.DataFrame({
+    'store': [store],
+    'game': [game],
+    'steamapp_id': [steamapp_id],
+    'original_price': [original_price],
+    'price': [price],
+    'link': [link]
+})
+    
+    
     response = requests.get(url)
     if response.status_code == 200:
         api_data = response.json()['data']
         if api_data:
             df = pd.DataFrame(api_data)
+            df = pd.concat([new_row, df], ignore_index=True)            
             return df.assign(price=pd.to_numeric(df['price'], errors='coerce')).dropna(subset=['price']).sort_values(by='price', ascending=True)
     
     return None
