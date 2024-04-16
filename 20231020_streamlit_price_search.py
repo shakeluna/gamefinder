@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 import datetime
 import time
+import re
 
 def get_app_data(appid):
     try:
