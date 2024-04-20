@@ -53,8 +53,6 @@ def get_app_data(appid):
     'store': [store],
     'original_price': [original_price]
 })
-    
-    
     response = requests.get(url)
     if response.status_code == 200:
         api_data = response.json()['data']
@@ -117,13 +115,13 @@ def generate_html_table(df):
     <table class="responsive-table">
     '''
 
-    html += '<thead><tr><th>이름</th><th>유통사</th><th>가격(수수료불포함)</th><th>구매하기</th></tr></thead>'
+    html += '<thead><tr><th>이름</th><th>유통사</th><th>가격(수수료불포함)</th><th>구매하러가기</th></tr></thead>'
     html += '<tbody>'
     
     for index, row in df.iterrows():
         # Formatting the price with commas
         formatted_price = f"{row['price']:,.0f} 원"
-        html += f'<tr><td>{row["name"]}</td><td>{row["store"]}</td><td>{formatted_price}</td><td><a href="{row["link"]}">구매하기</a></td></tr>'
+        html += f'<tr><td>{row["name"]}</td><td>{row["store"]}</td><td>{formatted_price}</td><td><a href="{row["link"]}">구매하러가기</a></td></tr>'
         
     html += '</tbody></table>'
     return html
