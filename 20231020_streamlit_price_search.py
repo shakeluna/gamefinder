@@ -116,7 +116,7 @@ def generate_html_table(df):
     <table class="responsive-table">
     '''
 
-    html += '<thead><tr><th>상품 이름</th><th>상품 구매 사이트</th><th>상품 구매 가격(수수료 불포함)</th><th>상품 구매 링크</th></tr></thead>'
+    html += '<thead><tr><th>이름</th><th>구매사이트</th><th>구매가격(수수료 불포함)</th><th>유통사 이동</th></tr></thead>'
     html += '<tbody>'
     
     for index, row in df.iterrows():
