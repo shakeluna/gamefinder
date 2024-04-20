@@ -127,10 +127,10 @@ def generate_html_table(df):
     html += '</tbody></table>'
     return html
 
-url = st.text_input("원하는 스팀 게임 주소를 입력하고 검색 버튼을 누르세요. 스크롤을 내려 사용방법을 확인하실 수 있습니다.")
+url = st.text_input("원하는 스팀 게임 주소를 입력하고 스팀 게임 최저가 검색 버튼을 누르세요. 스크롤을 내려 사용방법을 확인하실 수 있습니다.")
 
 if st.button("스팀 게임 최저가 검색"):
-    with st.spinner('최저가 검색 중'):
+    with st.spinner('스팀 게임 최저가 검색 중'):
         progress_bar = st.progress(0)
         
         # Simulate process update
