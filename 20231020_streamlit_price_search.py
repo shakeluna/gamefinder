@@ -40,7 +40,7 @@ def get_app_data(appid):
     price = steam_response[str(appid)]['data']['price_overview']['final_formatted']
     steamapp_id = appid
     appidstr = str(appid)
-    link = "https://store.steampowered.com/app/{appidstr}/?l=koreana"
+    link = f"https://store.steampowered.com/app/{appidstr}/?l=koreana"
     price = int(re.sub(r'[^0-9]', '', price))
     original_price = price
     store = "스팀"
