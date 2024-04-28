@@ -10,27 +10,27 @@ def get_app_data(appid):
         appid = int(appid)
     except ValueError:
         return None
-        
+    
     if 1 <= appid <= 300000:
-        url = f"https://script.google.com/macros/s/AKfycbyIQNRS86_ZPmlsWO5wr9g1-E23UlL5zxyF4OG6hd6uQheJqsc_QcCeElT8RtIg1YQ5Nw/exec?steam_appid={appid}"
+        table_name = "steamappid1"
     elif 300001 <= appid <= 600000:
-        url = f"https://script.google.com/macros/s/AKfycbz2uUQJXoqzgP6JBECwBsfiXG4bIaMsr6HAgbosC_ySbb4-9i8N-6C8lA7jdUnWVeAO/exec?steam_appid={appid}"
+        table_name = "steamappid2"
     elif 600001 <= appid <= 900000:
-        url = f"https://script.google.com/macros/s/AKfycbxSvF4g3iCIchM5whNjTzvasFIH8KLj7IcmEY692pwVYmVTDKFZbknZfPNteOO8zsZGdw/exec?steam_appid={appid}"
+        table_name = "steamappid3"
     elif 900001 <= appid <= 1200000:
-        url = f"https://script.google.com/macros/s/AKfycbwo1hWUsBnJBZV-sT9aa3BXSLs0G9Gql8480aX75mmKGzVRnrY5mAGZ9ZlUHH9kBQKrzg/exec?steam_appid={appid}"
+        table_name = "steamappid4"
     elif 1200001 <= appid <= 1500000:
-        url = f"https://script.google.com/macros/s/AKfycbwkHOiqzJoveMTZcgfRy-_bJb-aSB65gjlTXt9LeHlDNbXmTzLIeb_R1CQfqsoGM_kY3w/exec?steam_appid={appid}"
+        table_name = "steamappid5"
     elif 1500001 <= appid <= 1800000:
-        url = f"https://script.google.com/macros/s/AKfycbxlXrtBiO8dr7kIOu26QNj7oPDYZYPONqyCdWXodAkcFlHcouwAGrF-t0JYejDEI7jz/exec?steam_appid={appid}"
+        table_name = "steamappid6"
     elif 1800001 <= appid <= 2100000:
-        url = f"https://script.google.com/macros/s/AKfycbxMwmSY1V7ippEiYYsdxUJgG5-3qFgBgNw4C8wxU0m7OnYs_VR_rhcREqtuIG__rsBV/exec?steam_appid={appid}"
+        table_name = "steamappid7"
     elif 2100001 <= appid <= 2400000:
-        url = f"https://script.google.com/macros/s/AKfycbw5tafPV6Irz14D9SWUp988Oqxi5G7DR-W2nHP2EbPmc8X9Q-F7CtW0Z7CjHYjeGAeF/exec?steam_appid={appid}"
+        table_name = "steamappid8"
     elif 2400001 <= appid <= 2700000:
-        url = f"https://script.google.com/macros/s/AKfycbyloLrn8cOIQSTRbuODb2OUnXE_Dc143LBl4CSFx_I6L4DGK9auM_vNTCrL7Jo7sdvs/exec?steam_appid={appid}"
+        table_name = "steamappid9"
     elif 2700001 <= appid <= 3000000:
-        url = f"https://script.google.com/macros/s/AKfycbx2uB6sGx2Je0UTdJsRe_5ktQP88Z6L5ZrGYgA5SASfj3JoiaEePk_5etfH0PyLAPKA/exec?steam_appid={appid}"
+        table_name = "steamappid10"
     else:
         return None
 
@@ -44,23 +44,42 @@ def get_app_data(appid):
     price = int(re.sub(r'[^0-9]', '', price))
     original_price = price
     store = "스팀"
-
     new_row = pd.DataFrame({
-    'name': [game],
-    'steam_appid': [steamapp_id],
-    'link': [link],
-    'price': [price],
     'store': [store],
-    'original_price': [original_price]
+    'game': [game],
+    'steam_appid': [steamapp_id],
+    'original_price': [original_price],
+    'price': [price],
+    'link': [link],
 })
-    response = requests.get(url)
+    url = "https://zsslzoptwfunhkrplsbv.supabase.co"
+    api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzc2x6b3B0d2Z1bmhrcnBsc2J2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQyODU3NDQsImV4cCI6MjAyOTg2MTc0NH0.6-QnGWhnY2ZshI6B2TPXReZNKyVLWJhyC0W9BwbviAM"
+    endpoint = f"{url}/rest/v1/{table_name}"
+    headers = {
+        "apikey": api_key,
+        "Authorization": f"Bearer {api_key}"
+    }
+    params = {
+        "steam_appid": f"eq.{appid}"
+    }
+    # Make a GET request to the API endpoint with query parameters
+    response = requests.get(endpoint, headers=headers, params=params)    
+    # Check the response status code
     if response.status_code == 200:
-        api_data = response.json()['data']
-        if api_data:
-            df = pd.DataFrame(api_data)
-            df = pd.concat([new_row, df], ignore_index=True)            
-            return df.assign(price=pd.to_numeric(df['price'], errors='coerce')).dropna(subset=['price']).sort_values(by='price', ascending=True)
-    
+        data = response.json()
+        if len(data) > 0:
+            print("Query results:")
+            for row in data:
+                print(row)
+        else:
+            print("No matching records found for appid:", appid)
+    else:
+        print("Error occurred:", response.status_code, response.text)
+    if data:
+        df = pd.DataFrame(data)
+        df = df.drop(columns=['id', 'range_label'])
+        df = pd.concat([new_row, df], ignore_index=True)
+        return df.assign(price=pd.to_numeric(df['price'], errors='coerce')).dropna(subset=['price']).sort_values(by='price', ascending=True)
     return None
 
 def fetch_steam_price(appid):
