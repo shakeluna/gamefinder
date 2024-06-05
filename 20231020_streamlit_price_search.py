@@ -45,13 +45,14 @@ def get_app_data(appid):
     original_price = price
     store = "스팀"
     new_row = pd.DataFrame({
-    'store': [store],
-    'game': [game],
-    'steamappid': [steamappid],
-    'original_price': [original_price],
-    'price': [price],
-    'link': [link],
-})
+        'store': [store],
+        'game': [game],
+        'steamappid': [steamappid],
+        'original_price': [original_price],
+        'price': [price],
+        'link': [link],
+    })
+
     url = "https://zsslzoptwfunhkrplsbv.supabase.co"
     api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzc2x6b3B0d2Z1bmhrcnBsc2J2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQyODU3NDQsImV4cCI6MjAyOTg2MTc0NH0.6-QnGWhnY2ZshI6B2TPXReZNKyVLWJhyC0W9BwbviAM"
     endpoint = f"{url}/rest/v1/{table_name}"
@@ -62,9 +63,7 @@ def get_app_data(appid):
     params = {
         "steamappid": f"eq.{appid}"
     }
-    # Make a GET request to the API endpoint with query parameters
     response = requests.get(endpoint, headers=headers, params=params)    
-    # Check the response status code
     if response.status_code == 200:
         data = response.json()
         if len(data) > 0:
@@ -75,10 +74,19 @@ def get_app_data(appid):
             print("No matching records found for appid:", appid)
     else:
         print("Error occurred:", response.status_code, response.text)
+
     if data:
         df = pd.DataFrame(data)
         df = df.drop(columns=['id', 'range_label'])
         df = pd.concat([new_row, df], ignore_index=True)
+        
+        # Check if the required columns are present
+        required_columns = ['game', 'store', 'price', 'link']
+        missing_columns = [col for col in required_columns if col not in df.columns]
+        if missing_columns:
+            print(f"Missing columns: {missing_columns}")
+            return None
+        
         return df.assign(price=pd.to_numeric(df['price'], errors='coerce')).dropna(subset=['price']).sort_values(by='price', ascending=True)
     return None
 
@@ -140,7 +148,7 @@ def generate_html_table(df):
     for index, row in df.iterrows():
         # Formatting the price with commas
         formatted_price = f"{row['price']:,.0f} 원"
-        html += f'<tr><td>{row["name"]}</td><td>{row["store"]}</td><td>{formatted_price}</td><td><a href="{row["link"]}">구매하러가기</a></td></tr>'
+        html += f'<tr><td>{row["game"]}</td><td>{row["store"]}</td><td>{formatted_price}</td><td><a href="{row["link"]}">구매하러가기</a></td></tr>'
         
     html += '</tbody></table>'
     return html
@@ -163,7 +171,7 @@ if st.button("스팀 게임 최저가 검색"):
         
         if app_data is not None and not app_data.empty:
             first_row = app_data.iloc[0]
-            name, store, price, link = first_row['name'], first_row['store'], first_row['price'], first_row['link']
+            game, store, price, link = first_row['game'], first_row['store'], first_row['price'], first_row['link']
             steam_price = fetch_steam_price(appid)
 
             # Check if price is a numerical value
@@ -196,7 +204,7 @@ if st.button("스팀 게임 최저가 검색"):
                                     </style>
                                     <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/header.jpg" class="game-image">
                                     <div><strong>현재 스팀 가격:</strong> {steam_price}</div>
-                                    <div><strong>상품 이름:</strong> {name}</div>
+                                    <div><strong>상품 이름:</strong> {game}</div>
                                     <div><strong>상품 구매 사이트:</strong> {store}</div>
                                     <div><strong>상품 구매 최저가(수수료 불포함):</strong> {formatted_price}</div>
                                     <a href="{link}">구매하기</a>
