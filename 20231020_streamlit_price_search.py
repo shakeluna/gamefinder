@@ -38,7 +38,7 @@ def get_app_data(appid):
     steam_response = requests.get(steam_api_url).json()
     game = steam_response[str(appid)]['data']['name']
     price = steam_response[str(appid)]['data']['price_overview']['final_formatted']
-    steamapp_id = appid
+    steamappid = appid
     appidstr = str(appid)
     link = f"https://store.steampowered.com/app/{appidstr}/?l=koreana"
     price = int(re.sub(r'[^0-9]', '', price))
@@ -47,7 +47,7 @@ def get_app_data(appid):
     new_row = pd.DataFrame({
     'store': [store],
     'game': [game],
-    'steam_appid': [steamapp_id],
+    'steam_appid': [steamappid],
     'original_price': [original_price],
     'price': [price],
     'link': [link],
@@ -60,7 +60,7 @@ def get_app_data(appid):
         "Authorization": f"Bearer {api_key}"
     }
     params = {
-        "steam_appid": f"eq.{appid}"
+        "steamappid": f"eq.{appid}"
     }
     # Make a GET request to the API endpoint with query parameters
     response = requests.get(endpoint, headers=headers, params=params)    
